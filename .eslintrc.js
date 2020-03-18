@@ -79,6 +79,7 @@ module.exports = {
     }],
     'new-parens': 2,
     'no-array-constructor': 2,
+    "no-async-promise-executor": 2,
     'no-caller': 2,
     'no-console': 'off',
     'no-class-assign': 2,
@@ -180,8 +181,8 @@ module.exports = {
       'after': true
     }],
     'space-before-blocks': [2, 'always'],
-    'space-before-function-paren': [2, 'never'],
-    'space-in-parens': [2, 'never'],
+    'space-before-function-paren': [2, 'always'],
+    'space-in-parens': [2, 'always'],
     'space-infix-ops': 2,
     'space-unary-ops': [2, {
       'words': true,
