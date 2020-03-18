@@ -11,30 +11,37 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 export default {
-  data() {
+  data () {
     return {
 
     }
   },
   computed: {
-    ...mapGetters({
+    ...mapGetters( {
       token: 'user/token'
-    })
+    } )
   },
-  mounted() {
-
+  mounted () {
+    this.getUserInfo( { name: '111' } ).then( res => {
+      console.log( '---login---' )
+      console.log( res )
+    } ).catch( ( err ) => {
+      console.log( '---login----err' )
+      console.log( err )
+    } )
   },
   methods: {
-    ...mapActions({
-      login: 'user/login'
-    }),
-    clickLogin() {
-      this.login(123).then(res => {
-        console.log(res)
-        if (res.token) {
-          alert('已登录')
+    ...mapActions( {
+      login: 'user/login',
+      getUserInfo: 'user/getUserInfo'
+    } ),
+    clickLogin () {
+      this.login( 123 ).then( res => {
+        console.log( res )
+        if ( res.token ) {
+          alert( '已登录' )
         }
-      })
+      } )
     }
   }
 }
