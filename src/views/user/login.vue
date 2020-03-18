@@ -2,7 +2,7 @@
   <div>
     登录
     <div>
-      <div>token: {{ token }}</div>
+      <div class="text-content" >token: {{ token }}</div>
       <button @click="clickLogin" >登录</button>
     </div>
   </div>
@@ -41,5 +41,8 @@ import { mapActions, mapGetters } from 'vuex'
 </script>
 
 <style lang="scss" scoped>
-
+.text-content {
+  color: $default-color;
+  @include center();
+}
 </style>
