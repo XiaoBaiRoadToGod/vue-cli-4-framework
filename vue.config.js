@@ -1,14 +1,14 @@
-const CompressionPlugin = require('compression-webpack-plugin')
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const webpack = require('webpack')
+const CompressionPlugin = require( 'compression-webpack-plugin' )
+const BundleAnalyzerPlugin = require( 'webpack-bundle-analyzer' ).BundleAnalyzerPlugin
+// const MiniCssExtractPlugin = require( 'mini-css-extract-plugin' )
+const webpack = require( 'webpack' )
 const port = process.env.port || process.env.npm_config_port || 8888
 // 打包的版本号
 process.env.VUE_APP_Version = '0.0.0'
 // 时间戳
-const Timestamp = new Date().getTime()
+// const Timestamp = new Date().getTime()
 // API_ROOT,用来打包
-if (process.env.NODE_ENV === 'development') {
+if ( process.env.NODE_ENV === 'development' ) {
   process.env.VUE_APP_API_ROOT = '/api'
 } else {
   process.env.VUE_APP_API_ROOT = '/api'
@@ -34,7 +34,7 @@ module.exports = {
   // 输出文件目录 build 时生成的生产环境构建文件的目录
   outputDir: 'dist',
   // 放置生成的静态资源 (js、css、img、fonts) 的 (相对于 outputDir 的) 目录。
-  assetsDir: '',
+  assetsDir: 'static',
   // 指定生成的 index.html 的输出路径 (相对于 outputDir)。也可以是一个绝对路径。
   indexPath: 'index.html',
   // 生成的静态资源在它们的文件名中包含了 hash 以便更好的控制缓存
@@ -54,67 +54,58 @@ module.exports = {
     // 解决ie9兼容ES6
     // config.entry('main').add('babel-polyfill')
     // url-loader 文件大小低于指定的限制时，可返回 DataURL，即base64
-    const imagesRule = config.module.rule('images')
+    const imagesRule = config.module.rule( 'images' )
     imagesRule
-      .use('url-loader')
-      .loader('url-loader')
-      .tap(options => Object.assign(options, {
+      .use( 'url-loader' )
+      .loader( 'url-loader' )
+      .tap( options => Object.assign( options, {
         limit: 6144
-      }))
+      } ) )
 
     // 开启js、css压缩
-    if (process.env.NODE_ENV === 'production') {
-      if (META.productionGzip) {
-        config.plugin('compressionPlugin')
-          .use(new CompressionPlugin({
+    if ( process.env.NODE_ENV === 'production' ) {
+      if ( META.productionGzip ) {
+        config.plugin( 'compressionPlugin' )
+          .use( new CompressionPlugin( {
             filename: '[path].gz[query]',
             algorithm: 'gzip',
             test: /\.js$|\.html$|.\css/, // 匹配文件名
             threshold: 10240, // 对超过10k的数据压缩
             deleteOriginalAssets: false // 不删除源文件
-          }))
+          } ) )
       }
       // 移除 prefetch 插件
-      if (!META.prefetchOpen) {
-        config.plugins.delete('prefetch')
+      if ( !META.prefetchOpen ) {
+        config.plugins.delete( 'prefetch' )
       }
       // 移除 preload 插件
-      if (!META.preloadOpen) {
-        config.plugins.delete('preload')
+      if ( !META.preloadOpen ) {
+        config.plugins.delete( 'preload' )
       }
     }
   },
   configureWebpack: config => {
-    config.plugins.push(new webpack.ProvidePlugin({
+    config.plugins.push( new webpack.ProvidePlugin( {
       $: 'jquery',
       jQuery: 'jquery',
       'window.jQuery': 'jquery'
-    }))
-    config.plugins.push(new MiniCssExtractPlugin({
-      // 修改打包后css文件名
-      filename: `css/[name].${process.env.VUE_APP_Version}.${Timestamp}.css`,
-      chunkFilename: `css/[name].${process.env.VUE_APP_Version}.${Timestamp}.css`
-    }))
+    } ) )
+
     // 关闭 webpack 的性能提示
-    if (!META.webpackWarn) {
+    if ( !META.webpackWarn ) {
       config.performance = {
         hints: false
       }
     }
 
-    if (META.bundleAnalyzerReport) {
-      config.plugins.push(new BundleAnalyzerPlugin({
+    if ( META.bundleAnalyzerReport ) {
+      config.plugins.push( new BundleAnalyzerPlugin( {
         analyzerHost: '127.0.0.1',
         analyzerPort: 8086
-      }))
+      } ) )
     }
-
-    if (process.env.NODE_ENV === 'production') {
+    if ( process.env.NODE_ENV === 'production' ) {
       // 为生产环境修改配置...
-      // 输出重构  打包编译后的 文件名称  【模块名称.版本号.时间戳】
-      config.output.filename = `js/[name].${process.env.VUE_APP_Version}.${Timestamp}.js`
-      config.output.chunkFilename = `js/[name].${process.env.VUE_APP_Version}.${Timestamp}.js`
-
       // console.log/info/debug,在生产环境需要去掉这些console
       config.optimization.minimizer[0].options.terserOptions.compress.drop_console = true
     } else {
@@ -140,7 +131,7 @@ module.exports = {
     requireModuleExtension: true
   },
   // 是否为 Babel 或 TypeScript 使用 thread-loader。该选项在系统的 CPU 有多于一个内核时自动启用，仅作用于生产构建
-  parallel: require('os').cpus().length > 1,
+  parallel: require( 'os' ).cpus().length > 1,
   pwa: {},
   // webpack-dev-server 相关配置
 
