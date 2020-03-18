@@ -1,5 +1,4 @@
 
-
 export default {
   namespaced: true,
   state: {
@@ -13,7 +12,7 @@ export default {
   actions: {
     login({ commit, state }, data) {
       return new Promise((resolve, reject) => {
-        if(data) {
+        if (data) {
           console.log(data)
           commit('setToken', data)
           resolve(state)
@@ -24,7 +23,7 @@ export default {
     }
   },
   getters: {
-    token (state) {
+    token(state) {
       return state.token
     }
   }
