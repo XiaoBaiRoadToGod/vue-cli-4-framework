@@ -86,11 +86,15 @@ module.exports = {
       // 访问https://unpkg.com/element-ui/lib/theme-chalk/index.css获取最新版本
       css: ['//unpkg.com/element-ui/lib/theme-chalk/index.css'],
       js: [
+        '//unpkg.com/babel-polyfill/lib/index.js',
         '//unpkg.com/vue/dist/vue.min.js', // 访问https://unpkg.com/vue/dist/vue.min.js获取最新版本
         '//unpkg.com/vue-router/dist/vue-router.min.js',
         '//unpkg.com/vuex/dist/vuex.min.js',
         '//unpkg.com/axios/dist/axios.min.js',
         '//unpkg.com/element-ui/lib/index.js'
+        // '//unpkg.com/vant/lib/index.js',
+        // '//unpkg.com/moment/moment.js',
+        // '//unpkg.com/echarts/index.js'
       ]
     }
 
@@ -136,7 +140,10 @@ module.exports = {
       'element-ui': 'ELEMENT',
       'vue-router': 'VueRouter',
       vuex: 'Vuex',
-      axios: 'axios'
+      axios: 'axios',
+      vant: 'vant',
+      moment: 'moment',
+      echarts: 'echarts'
     }
     // 关闭 webpack 的性能提示
     if ( !META.webpackWarn ) {
