@@ -1,11 +1,11 @@
 <template>
-  <div>
-    登录
-    <div>
-      <div class="text-content" >token: {{ token }}</div>
-      <button @click="clickLogin" >登录</button>
-    </div>
-  </div>
+  <el-row>
+      登录
+      <el-row style="height: 500px;" >
+        <el-row class="text-content" >token: {{ token }}</el-row>
+        <el-button @click="clickLogin" type="primary" >登录</el-button>
+      </el-row>
+  </el-row>
 </template>
 
 <script>
