@@ -86,7 +86,7 @@ module.exports = {
       // 访问https://unpkg.com/element-ui/lib/theme-chalk/index.css获取最新版本
       css: ['//unpkg.com/element-ui/lib/theme-chalk/index.css'],
       js: [
-        '//unpkg.com/babel-polyfill/lib/index.js',
+        '//cdnjs.cloudflare.com/ajax/libs/babel-polyfill/7.8.7/polyfill.min.js',
         '//unpkg.com/vue/dist/vue.min.js', // 访问https://unpkg.com/vue/dist/vue.min.js获取最新版本
         '//unpkg.com/vue-router/dist/vue-router.min.js',
         '//unpkg.com/vuex/dist/vuex.min.js',
