@@ -2,6 +2,9 @@ const CompressionPlugin = require( 'compression-webpack-plugin' )
 const BundleAnalyzerPlugin = require( 'webpack-bundle-analyzer' ).BundleAnalyzerPlugin
 // const MiniCssExtractPlugin = require( 'mini-css-extract-plugin' )
 const webpack = require( 'webpack' )
+const path = require( 'path' )
+// const fs = require( 'fs' )
+const resolve = dir => path.join( __dirname, dir )
 const port = process.env.port || process.env.npm_config_port || 8888
 // 打包的版本号
 process.env.VUE_APP_Version = '0.0.0'
@@ -61,6 +64,24 @@ module.exports = {
       .tap( options => Object.assign( options, {
         limit: 6144
       } ) )
+
+    // 添加别名
+    config.resolve.alias
+      .set( 'vue$', 'vue/dist/vue.esm.js' )
+      .set( '@', resolve( 'src' ) )
+      .set( '@apis', resolve( 'src/apis' ) )
+      .set( '@assets', resolve( 'src/assets' ) )
+      .set( '@scss', resolve( 'src/assets/scss' ) )
+      .set( '@components', resolve( 'src/components' ) )
+      .set( '@middlewares', resolve( 'src/middlewares' ) )
+      .set( '@mixins', resolve( 'src/mixins' ) )
+      .set( '@plugins', resolve( 'src/plugins' ) )
+      .set( '@router', resolve( 'src/router' ) )
+      .set( '@store', resolve( 'src/store' ) )
+      .set( '@utils', resolve( 'src/utils' ) )
+      .set( '@views', resolve( 'src/views' ) )
+      .set( '@layouts', resolve( 'src/layouts' ) )
+
     const cdn = {
       // 访问https://unpkg.com/element-ui/lib/theme-chalk/index.css获取最新版本
       css: ['//unpkg.com/element-ui/lib/theme-chalk/index.css'],
