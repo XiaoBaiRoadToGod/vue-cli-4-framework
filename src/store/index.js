@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 Vue.use( Vuex )
+// 自动注册模块
 const files = require.context( './modules', false, /\.js$/ )
 const modules = {}
 
