@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 
-Vue.use( VueRouter )
+Vue.use(VueRouter)
 
 let routes = [
   {
@@ -16,28 +16,28 @@ let routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import( /* webpackChunkName: "about" */ '../views/About.vue' )
+    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
   }
 ]
 // 自动注册路由
-const routerContext = require.context( './', true, /\.js$/ )
-routerContext.keys().forEach( route => {
+const routerContext = require.context('./', true, /\.js$/)
+routerContext.keys().forEach(route => {
   // 如果是根目录的 index.js 不处理
-  if ( route.startsWith( './index' ) ) {
+  if (route.startsWith('./index')) {
     return
   }
-  const routerModule = routerContext( route )
+  const routerModule = routerContext(route)
   /** *
    * 兼容import export 和 require module.export 两种规范
    */
-  routes = routes.concat( routerModule.default || routerModule )
-} )
+  routes = routes.concat(routerModule.default || routerModule)
+})
 
-const router = new VueRouter( {
+const router = new VueRouter({
   // history
   mode: 'hash',
   base: process.env.BASE_URL,
   routes
-} )
+})
 
 export default router

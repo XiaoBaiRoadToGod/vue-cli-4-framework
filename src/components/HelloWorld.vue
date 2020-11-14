@@ -126,7 +126,7 @@ export default {
   props: {
     msg: String
   },
-  mounted () {
+  mounted() {
     this.ddd = 'ddd'
   }
 }
