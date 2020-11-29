@@ -1,17 +1,17 @@
-const CompressionPlugin = require( 'compression-webpack-plugin' )
-const BundleAnalyzerPlugin = require( 'webpack-bundle-analyzer' ).BundleAnalyzerPlugin
+const CompressionPlugin = require('compression-webpack-plugin')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 // const MiniCssExtractPlugin = require( 'mini-css-extract-plugin' )
-const webpack = require( 'webpack' )
-const path = require( 'path' )
+const webpack = require('webpack')
+const path = require('path')
 // const fs = require( 'fs' )
-const resolve = dir => path.join( __dirname, dir )
+const resolve = dir => path.join(__dirname, dir)
 const port = process.env.port || process.env.npm_config_port || 8888
 // 打包的版本号
 process.env.VUE_APP_Version = '0.0.0'
 // 时间戳
 // const Timestamp = new Date().getTime()
 // API_ROOT,用来打包
-if ( process.env.NODE_ENV === 'development' ) {
+if (process.env.NODE_ENV === 'development') {
   process.env.VUE_APP_API_ROOT = '/api'
 } else {
   process.env.VUE_APP_API_ROOT = '/api'
@@ -57,30 +57,30 @@ module.exports = {
     // 解决ie9兼容ES6
     // config.entry('main').add('babel-polyfill')
     // url-loader 文件大小低于指定的限制时，可返回 DataURL，即base64
-    const imagesRule = config.module.rule( 'images' )
+    const imagesRule = config.module.rule('images')
     imagesRule
-      .use( 'url-loader' )
-      .loader( 'url-loader' )
-      .tap( options => Object.assign( options, {
+      .use('url-loader')
+      .loader('url-loader')
+      .tap(options => Object.assign(options, {
         limit: 6144
-      } ) )
+      }))
 
     // 添加别名
     config.resolve.alias
-      .set( 'vue$', 'vue/dist/vue.esm.js' )
-      .set( '@', resolve( 'src' ) )
-      .set( '@apis', resolve( 'src/apis' ) )
-      .set( '@assets', resolve( 'src/assets' ) )
-      .set( '@scss', resolve( 'src/assets/scss' ) )
-      .set( '@components', resolve( 'src/components' ) )
-      .set( '@middlewares', resolve( 'src/middlewares' ) )
-      .set( '@mixins', resolve( 'src/mixins' ) )
-      .set( '@plugins', resolve( 'src/plugins' ) )
-      .set( '@router', resolve( 'src/router' ) )
-      .set( '@store', resolve( 'src/store' ) )
-      .set( '@utils', resolve( 'src/utils' ) )
-      .set( '@views', resolve( 'src/views' ) )
-      .set( '@layouts', resolve( 'src/layouts' ) )
+      .set('vue$', 'vue/dist/vue.esm.js')
+      .set('@', resolve('src'))
+      .set('@apis', resolve('src/apis'))
+      .set('@assets', resolve('src/assets'))
+      .set('@scss', resolve('src/assets/scss'))
+      .set('@components', resolve('src/components'))
+      .set('@middlewares', resolve('src/middlewares'))
+      .set('@mixins', resolve('src/mixins'))
+      .set('@plugins', resolve('src/plugins'))
+      .set('@router', resolve('src/router'))
+      .set('@store', resolve('src/store'))
+      .set('@utils', resolve('src/utils'))
+      .set('@views', resolve('src/views'))
+      .set('@layouts', resolve('src/layouts'))
 
     const cdn = {
       // 访问https://unpkg.com/element-ui/lib/theme-chalk/index.css获取最新版本
@@ -99,42 +99,42 @@ module.exports = {
     }
 
     // 如果使用多页面打包，使用vue inspect --plugins查看html是否在结果数组中
-    config.plugin( 'html' ).tap( args => {
+    config.plugin('html').tap(args => {
       // html中添加cdn
       args[0].cdn = cdn
 
       // 修复 Lazy loading routes Error
       args[0].chunksSortMode = 'none'
       return args
-    } )
+    })
     // 开启js、css压缩
-    if ( process.env.NODE_ENV === 'production' ) {
-      if ( META.productionGzip ) {
-        config.plugin( 'compressionPlugin' )
-          .use( new CompressionPlugin( {
+    if (process.env.NODE_ENV === 'production') {
+      if (META.productionGzip) {
+        config.plugin('compressionPlugin')
+          .use(new CompressionPlugin({
             filename: '[path].gz[query]',
             algorithm: 'gzip',
             test: /\.js$|\.html$|.\css/, // 匹配文件名
             threshold: 10240, // 对超过10k的数据压缩
             deleteOriginalAssets: false // 不删除源文件
-          } ) )
+          }))
       }
       // 移除 prefetch 插件
-      if ( !META.prefetchOpen ) {
-        config.plugins.delete( 'prefetch' )
+      if (!META.prefetchOpen) {
+        config.plugins.delete('prefetch')
       }
       // 移除 preload 插件
-      if ( !META.preloadOpen ) {
-        config.plugins.delete( 'preload' )
+      if (!META.preloadOpen) {
+        config.plugins.delete('preload')
       }
     }
   },
   configureWebpack: config => {
-    config.plugins.push( new webpack.ProvidePlugin( {
+    config.plugins.push(new webpack.ProvidePlugin({
       $: 'jquery',
       jQuery: 'jquery',
       'window.jQuery': 'jquery'
-    } ) )
+    }))
     config.externals = {
       vue: 'Vue',
       'element-ui': 'ELEMENT',
@@ -146,19 +146,19 @@ module.exports = {
       echarts: 'echarts'
     }
     // 关闭 webpack 的性能提示
-    if ( !META.webpackWarn ) {
+    if (!META.webpackWarn) {
       config.performance = {
         hints: false
       }
     }
 
-    if ( META.bundleAnalyzerReport ) {
-      config.plugins.push( new BundleAnalyzerPlugin( {
+    if (META.bundleAnalyzerReport) {
+      config.plugins.push(new BundleAnalyzerPlugin({
         analyzerHost: '127.0.0.1',
         analyzerPort: 8086
-      } ) )
+      }))
     }
-    if ( process.env.NODE_ENV === 'production' ) {
+    if (process.env.NODE_ENV === 'production') {
       // 为生产环境修改配置...
       // console.log/info/debug,在生产环境需要去掉这些console
       config.optimization.minimizer[0].options.terserOptions.compress.drop_console = true
@@ -185,7 +185,7 @@ module.exports = {
     requireModuleExtension: true
   },
   // 是否为 Babel 或 TypeScript 使用 thread-loader。该选项在系统的 CPU 有多于一个内核时自动启用，仅作用于生产构建
-  parallel: require( 'os' ).cpus().length > 1,
+  parallel: require('os').cpus().length > 1,
   pwa: {},
   // webpack-dev-server 相关配置
 
