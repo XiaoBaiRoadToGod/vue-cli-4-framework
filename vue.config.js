@@ -1,7 +1,8 @@
+
 const CompressionPlugin = require('compression-webpack-plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 // const MiniCssExtractPlugin = require( 'mini-css-extract-plugin' )
-const webpack = require('webpack')
+// const webpack = require('webpack')
 const path = require('path')
 // const fs = require( 'fs' )
 const resolve = dir => path.join(__dirname, dir)
@@ -102,7 +103,7 @@ module.exports = {
     config.plugin('html').tap(args => {
       // html中添加cdn
       args[0].cdn = cdn
-
+      args[0].title = '信息系统'
       // 修复 Lazy loading routes Error
       args[0].chunksSortMode = 'none'
       return args
@@ -130,11 +131,6 @@ module.exports = {
     }
   },
   configureWebpack: config => {
-    config.plugins.push(new webpack.ProvidePlugin({
-      $: 'jquery',
-      jQuery: 'jquery',
-      'window.jQuery': 'jquery'
-    }))
     config.externals = {
       vue: 'Vue',
       'element-ui': 'ELEMENT',
@@ -142,7 +138,6 @@ module.exports = {
       vuex: 'Vuex',
       axios: 'axios',
       vant: 'vant',
-      moment: 'moment',
       echarts: 'echarts'
     }
     // 关闭 webpack 的性能提示
@@ -179,6 +174,26 @@ module.exports = {
         // 全局引入
         // sass-loader V7 这里是data
         prependData: `@import "~@/style/_variables.scss";@import "~@/style/common.scss";@import "~@/style/_mixin.scss";`
+      },
+      postcss: {
+        plugins: [
+          require('postcss-px-to-viewport')({
+            unitToConvert: 'px', // 需要转换的单位，默认为"px"
+            viewportWidth: 1920, // 视窗的宽度，对应pc设计稿的宽度，一般是1920
+            viewportHeight: 1080, // 视窗的高度，对应的是我们设计稿的高度,我做的是大屏监控,高度就是1080
+            unitPrecision: 3, // 单位转换后保留的精度
+            propList: [ // 能转化为vw的属性列表
+              '*'
+            ],
+            viewportUnit: 'vw', // 希望使用的视口单位
+            fontViewportUnit: 'vw', // 字体使用的视口单位
+            selectorBlackList: [], // 需要忽略的CSS选择器，不会转为视口单位，使用原有的px等单位。
+            minPixelValue: 1, // 设置最小的转换数值，如果为1的话，只有大于1的值会被转换
+            mediaQuery: false, // 媒体查询里的单位是否需要转换单位
+            replace: true, // 是否直接更换属性值，而不添加备用属性
+            exclude: /(\/|\\)(node_modules)(\/|\\)/ // 忽略某些文件夹下的文件或特定文件，例如 'node_modules' 下的文件
+          })
+        ]
       }
     },
     // 启用 CSS modules for all css / pre-processor files.
